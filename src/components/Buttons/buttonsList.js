@@ -1,0 +1,27 @@
+const buttonsList = [
+  { id: "1", display: "AC", type: "clear", value: "clear" },
+  { id: "2", display: "+/-", type: "registr", value: "-" },
+  { id: "3", display: "%", type: "percent", value: "%" },
+  { id: "4", display: `\u00F7`, type: "action", value: "/" },
+  { id: "5", display: "mc", type: "memory", value: "memClear" },
+  { id: "6", display: "mr", type: "memory", value: "memReturn" },
+  { id: "7", display: "m-", type: "memory", value: "memMinus" },
+  { id: "8", display: "m+", type: "memory", value: "memPlus" },
+  { id: "9", display: "7", type: "digit", value: "7" },
+  { id: "10", display: "8", type: "digit", value: "8" },
+  { id: "11", display: "9", type: "digit", value: "9" },
+  { id: "12", display: `\u00D7`, type: "action", value: "*" },
+  { id: "13", display: "4", type: "digit", value: "4" },
+  { id: "14", display: "5", type: "digit", value: "5" },
+  { id: "15", display: "6", type: "digit", value: "6" },
+  { id: "16", display: `\u2212`, type: "action", value: "-" },
+  { id: "17", display: "1", type: "digit", value: "1" },
+  { id: "18", display: "2", type: "digit", value: "2" },
+  { id: "19", display: "3", type: "digit", value: "3" },
+  { id: "20", display: "+", type: "action", value: "+" },
+  { id: "21", display: "0", type: "digit", value: "0" },
+  { id: "22", display: `\u0317`, type: "comma", value: "." },
+  { id: "23", display: "=", type: "action", value: "=" },
+];
+
+export default buttonsList;

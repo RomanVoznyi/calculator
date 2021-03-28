@@ -1,0 +1,16 @@
+.wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  width: 100vw;
+  height: 100vh;
+  padding: 20px;
+  overflow-y: scroll;
+}
+
+.calculator {
+  max-width: 250px;
+  padding: 10px;
+
+  background-color: black;
+}
