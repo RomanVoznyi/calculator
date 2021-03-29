@@ -12,9 +12,7 @@ const App = () => {
   const [inProcess, setInProcess] = useState(false);
   const [storage, setStorage] = useState("");
 
-  const handleClick = ({ currentTarget }) => {
-    const type = currentTarget.dataset["type"];
-    const value = currentTarget.dataset["value"];
+  const handleClick = (type, value) => {
     const state = {
       current,
       setCurrent,

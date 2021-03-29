@@ -17,7 +17,10 @@
 
   background-color: rgba(255, 255, 255, 0.2);
   color: white;
+  border: none;
   cursor: pointer;
+
+  transition: background-color 75ms linear, border 75ms linear;
 }
 
 .button-item:nth-last-child(3) {
@@ -43,4 +46,13 @@
 
 .button-item:nth-child(-n + 8):nth-child(n + 5) {
   font-size: 16px;
+}
+
+.button-item:hover {
+  background-color: rgba(255, 255, 255, 0.3);
+}
+
+.button-item.active {
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  background-color: rgba(255, 255, 255, 0.4);
 }
