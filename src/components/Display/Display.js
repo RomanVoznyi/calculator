@@ -1,50 +1,64 @@
 import { useState, useEffect } from "react";
 import "./Display.css";
 
-const Display = ({ previousData, currentData, inProcess }) => {
-  const [currStyle, setCurrStyle] = useState("");
-  const [prevStyle, setPrevStyle] = useState("");
-  const updateCurrentData = checkLength(currentData);
-  const updatePreviousData = inProcess
-    ? checkLength(previousData.slice(0, previousData.length - 1)) +
-      previousData[previousData.length - 1]
-    : checkLength(previousData);
+const Display = ({ inputNumb, expression }) => {
+  const [inputStyle, setInputStyle] = useState("");
+  const [expressionStyle, setExpressionStyle] = useState("");
+
+  const expressionText = createExpressionText(expression);
+  const inputText = convertInputToLocal(inputNumb);
 
   useEffect(() => {
-    let tempStyle = "currData";
-    const length = updateCurrentData.length;
+    let tempStyle = "inputNumb";
+    const length = inputText.length;
 
     if (length > 7 && length <= 10) {
       tempStyle += " medium";
     }
-    if (length > 10) {
+    if (length > 10 && length <= 18) {
       tempStyle += " small";
     }
-    setCurrStyle(tempStyle);
-  }, [updateCurrentData]);
+    if (length > 18) {
+      tempStyle += " very-small";
+    }
+    setInputStyle(tempStyle);
+  }, [inputText]);
 
   useEffect(() => {
-    let tempStyle = "prevData";
-    const length = updatePreviousData.length;
-    if (length > 10) {
+    let tempStyle = "expression";
+    const length = expressionText.length;
+    if (length > 10 && length <= 20) {
       tempStyle += " small";
     }
-    setPrevStyle(tempStyle);
-  }, [updatePreviousData]);
-
-  function checkLength(text) {
-    if (text.length > 15) {
-      return parseFloat(text)
-        .toPrecision(5)
-        .replace(/\.?0+$/, "");
+    if (length > 20) {
+      tempStyle += " very-small";
     }
-    return text;
+    setExpressionStyle(tempStyle);
+  }, [expressionText]);
+
+  function createExpressionText({ numbOne, action, numbTwo, equal }) {
+    return `${numbOne} ${action} ${numbTwo} ${equal}`;
+  }
+
+  function convertInputToLocal(baseText) {
+    const [integer, fraction = ""] = baseText.split(".");
+    const newInteger = integer
+      .split("")
+      .reverse()
+      .join("")
+      .replace(/(\d{3})/g, "$1 ")
+      .trim()
+      .split("")
+      .reverse()
+      .join("");
+
+    return baseText.includes(".") ? `${newInteger},${fraction}` : newInteger;
   }
 
   return (
     <div className="display">
-      <p className={prevStyle}>{updatePreviousData}</p>
-      <p className={currStyle}>{updateCurrentData}</p>
+      <p className={expressionStyle}>{expressionText}</p>
+      <p className={inputStyle}>{inputText}</p>
     </div>
   );
 };

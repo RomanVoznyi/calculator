@@ -2,65 +2,63 @@ import { useState } from "react";
 import Display from "./components/Display";
 import Buttons from "./components/Buttons";
 import { digit, comma, registr, percent, action, memory } from "./handlers";
+import { TYPES, INITIAL_VALUE } from "./helpers/constants";
 import { ToastContainer } from "react-toastify";
+
 import "react-toastify/dist/ReactToastify.css";
 import "./App.css";
 
 const App = () => {
-  const [current, setCurrent] = useState("0");
-  const [previous, setPrevious] = useState("");
-  const [inProcess, setInProcess] = useState(false);
-  const [storage, setStorage] = useState("");
+  const [inputNumb, setInputNumb] = useState(INITIAL_VALUE.inputNumb);
+  const [expression, setExpression] = useState(INITIAL_VALUE.expression);
+  const [storage, setStorage] = useState(INITIAL_VALUE.storage);
 
   const handleClick = (type, value) => {
     const state = {
-      current,
-      setCurrent,
-      previous,
-      setPrevious,
-      inProcess,
-      setInProcess,
+      inputNumb,
+      setInputNumb,
+      expression,
+      setExpression,
       storage,
       setStorage,
     };
 
     switch (type) {
-      case "digit":
+      case TYPES.DIGIT:
         digit(value, state);
         break;
-      case "comma":
+      case TYPES.COMMA:
         comma(value, state);
         break;
-      case "registr":
+      case TYPES.REGISTR:
         registr(value, state);
         break;
-      case "percent":
+      case TYPES.PERCENT:
         percent(value, state);
         break;
-      case "action":
+      case TYPES.ACTION:
         action(value, state);
         break;
-      case "memory":
+      case TYPES.MEMORY:
         memory(value, state);
         break;
 
       default:
-        setCurrent("0");
-        setPrevious("");
-        setInProcess(false);
+        reset();
         break;
     }
+  };
+
+  const reset = () => {
+    setInputNumb(INITIAL_VALUE.inputNumb);
+    setExpression(INITIAL_VALUE.expression);
   };
 
   return (
     <div className="wrapper">
       <ToastContainer autoClose={3000} />
       <div className="calculator">
-        <Display
-          previousData={previous}
-          currentData={current}
-          inProcess={inProcess}
-        />
+        <Display inputNumb={inputNumb} expression={expression} />
         <Buttons onClick={handleClick} />
       </div>
     </div>

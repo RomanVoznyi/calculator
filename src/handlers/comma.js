@@ -1,16 +1,18 @@
+import { INITIAL_VALUE } from "../helpers/constants";
+
 const comma = (value, state) => {
-  const { current, setCurrent, previous, setPrevious, inProcess } = state;
+  const { inputNumb, setInputNumb, expression, setExpression } = state;
 
   if (
-    current.length < 14 &&
-    !current.includes(value) &&
-    !current.includes("%")
+    inputNumb.length < 14 &&
+    !inputNumb.includes(value) &&
+    !inputNumb.includes("%")
   ) {
-    if (current === "error" || (!inProcess && previous)) {
-      setCurrent(`0${value}`);
-      setPrevious("");
+    if (inputNumb === "error" || expression.equal) {
+      setInputNumb(`0${value}`);
+      setExpression(INITIAL_VALUE.expression);
     } else {
-      setCurrent((prevState) => prevState + value);
+      setInputNumb((prevState) => prevState + value);
     }
   }
 };

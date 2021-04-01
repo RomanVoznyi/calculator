@@ -1,3 +1,4 @@
+import { INITIAL_VALUE } from "../helpers/constants";
 import { toast } from "react-toastify";
 
 const notifyOptions = {
@@ -6,42 +7,47 @@ const notifyOptions = {
 };
 
 const action = (value, state) => {
-  const {
-    current,
-    setCurrent,
-    previous,
-    setPrevious,
-    inProcess,
-    setInProcess,
-  } = state;
+  const { inputNumb, setInputNumb, expression, setExpression } = state;
 
-  if (current !== "error") {
-    if (!inProcess && value !== "=") {
-      setPrevious(checkPercentAndComma(current) + value);
-      setCurrent("0");
-      setInProcess(true);
+  if (inputNumb !== "error") {
+    if (
+      (!expression.action && value !== "=") ||
+      (expression.equal && value !== "=")
+    ) {
+      setExpression({
+        numbOne: checkPercentAndComma(inputNumb),
+        action: value,
+        numbTwo: "",
+        equal: "",
+      });
+      setInputNumb("0");
     }
-    if (previous !== "" && inProcess) {
-      const oldNumber = previous.slice(0, previous.length - 1);
-      const action = previous.slice(previous.length - 1);
-      let tempResult = calculate(
-        parseFloat(oldNumber),
-        action,
-        parseFloat(checkPercentAndComma(current))
+    if (expression.numbOne && expression.action && !expression.equal) {
+      const tempResult = calculate(
+        Number(expression.numbOne),
+        expression.action,
+        Number(checkPercentAndComma(inputNumb))
       );
       if (tempResult === "error") {
         toast.error("Division by zero", notifyOptions);
-        setCurrent(tempResult);
-        setPrevious("");
-        setInProcess(false);
+        setInputNumb(tempResult);
+        setExpression(INITIAL_VALUE.expression);
       } else {
         if (value === "=") {
-          setCurrent(tempResult.toString());
-          setPrevious(tempResult.toString());
-          setInProcess(false);
+          setExpression((prevState) => ({
+            ...prevState,
+            numbTwo: inputNumb,
+            equal: "=",
+          }));
+          setInputNumb(tempResult);
         } else {
-          setPrevious(tempResult.toString() + value);
-          setCurrent("0");
+          setExpression({
+            numbOne: tempResult,
+            action: value,
+            numbTwo: "",
+            equal: "",
+          });
+          setInputNumb("0");
         }
       }
     }
@@ -51,13 +57,15 @@ const action = (value, state) => {
 const calculate = (firstNumber, action, secondNumber) => {
   switch (action) {
     case "+":
-      return firstNumber + secondNumber;
+      return setNumberFormat(firstNumber + secondNumber);
     case "-":
-      return firstNumber - secondNumber;
+      return setNumberFormat(firstNumber - secondNumber);
     case "*":
-      return firstNumber * secondNumber;
+      return setNumberFormat(firstNumber * secondNumber);
     case "/":
-      return secondNumber !== 0 ? firstNumber / secondNumber : "error";
+      return secondNumber !== 0
+        ? setNumberFormat(firstNumber / secondNumber)
+        : "error";
     default:
       return "error";
   }
@@ -65,12 +73,27 @@ const calculate = (firstNumber, action, secondNumber) => {
 
 const checkPercentAndComma = (text) => {
   if (text.includes("%")) {
-    return (Number(text.slice(0, text.length - 1)) / 100).toString();
+    return (Number(text.slice(0, text.length - 1)) / 100)
+      .toFixed(10)
+      .replace(/\.?0+$/, "");
   }
   if (text[text.length - 1] === ".") {
     return text.slice(0, text.length - 1);
   }
   return text;
+};
+
+const setNumberFormat = (number) => {
+  if (
+    number > 1e15 ||
+    number < -1e15 ||
+    (number > 0 && number < 1e-10) ||
+    (number > -1e-10 && number < 0)
+  ) {
+    return number.toPrecision(10);
+  } else {
+    return number.toFixed(10).replace(/\.?0+$/, "");
+  }
 };
 
 export default action;

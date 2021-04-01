@@ -1,8 +1,12 @@
 const percent = (value, state) => {
-  const { current, setCurrent } = state;
+  const { inputNumb, setInputNumb } = state;
 
-  if (current.length < 14 && current !== "error" && !current.includes(value)) {
-    setCurrent((prevState) => checkComma(prevState) + value);
+  if (
+    inputNumb.length < 14 &&
+    inputNumb !== "error" &&
+    !inputNumb.includes(value)
+  ) {
+    setInputNumb((prevState) => checkComma(prevState) + value);
   }
 };
 

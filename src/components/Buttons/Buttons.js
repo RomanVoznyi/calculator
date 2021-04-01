@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import buttonsList from "./buttonsList";
+import { TYPES } from "../../helpers/constants";
 import "./Buttons.css";
 
 const Buttons = ({ onClick }) => {
@@ -40,7 +41,7 @@ const Buttons = ({ onClick }) => {
       const pressedBtn = buttonsList.find((el) => el.value === key);
       if (pressedBtn) {
         value = pressedBtn.value;
-        type = value === "-" ? "action" : pressedBtn.type;
+        type = value === "-" ? TYPES.ACTION : pressedBtn.type;
 
         const el = document.querySelector(
           `[data-type="${type}"][data-value="${value}"]`

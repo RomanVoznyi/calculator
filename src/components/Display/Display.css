@@ -9,26 +9,33 @@
   text-align: right;
 }
 
-.prevData {
+.inputNumb {
+  min-height: 60px;
+  word-break: break-all;
+}
+
+.inputNumb.medium {
+  font-size: 35px;
+}
+
+.inputNumb.small {
+  font-size: 23px;
+}
+.inputNumb.very-small {
+  font-size: 19px;
+}
+
+.expression {
   min-height: 30px;
   font-size: 20px;
   color: rgba(255, 255, 255, 0.7);
   word-break: break-all;
 }
 
-.prevData.small {
+.expression.small {
   font-size: 14px;
 }
 
-.currData {
-  min-height: 60px;
-  word-break: break-all;
-}
-
-.currData.medium {
-  font-size: 35px;
-}
-
-.currData.small {
-  font-size: 23px;
+.expression.very-small {
+  font-size: 11px;
 }
